@@ -35,7 +35,7 @@ const obj = {
 const wrapped = wrap('add', null, obj)
 
 wrapped.single(1, 2).then(console.log)            // 3
-wrapped.batch([[1, 2], [2, 3]]).then(console.log) // [3, 4]
+wrapped.batch([1, 2], [2, 3]).then(console.log)   // [3, 4]
 ```
 
 ## wrap(single, batch, context)
@@ -43,7 +43,7 @@ wrapped.batch([[1, 2], [2, 3]]).then(console.log) // [3, 4]
 Returns
 
 - `null` if single and batch methods are both unavailable
-- `{single: function, batch: function}` 
+- `{single: function, batch: function}`
 
 ## License
 

@@ -1,5 +1,6 @@
 import test from 'ava'
 import wrap from '../src'
+import delay from 'delay'
 
 test('if only single data, batch should fall back to single', async t => {
   let got = false
@@ -75,4 +76,13 @@ test('function', async t => {
   const wrapped = wrap(get, null, s)
   t.is(await wrapped.single(1), 2)
   t.deepEqual(await wrapped.batch([1], [2]), [2, 3])
+})
+
+
+test('single, multiple arguments', async t => {
+  const add = (a, b) => delay(10).then(() => a + b)
+
+  const wrapped = wrap(add, null)
+  t.is(await wrapped.single(1, 2), 3)
+  t.deepEqual(await wrapped.batch([1, 2], [3, 4]), [3, 7])
 })

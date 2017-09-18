@@ -50,7 +50,7 @@ const _wrap = (single, batch, context = null) => {
             : args.map(arg => single.call(context, ...arg))
         : []
 
-      return Promise.resolve(ret)
+      return Promise.all(ret)
     }
   }
 }

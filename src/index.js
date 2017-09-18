@@ -40,17 +40,15 @@ const _wrap = (single, batch, context = null) => {
     },
 
     batch (...args) {
-      const ret = args.length
+      return args.length
         ? args.length === 1
           ? single
-            ? [single.call(context, ...args[0])]
-            : batch.call(context, ...args)
+            ? Promise.all([single.call(context, ...args[0])])
+            : Promise.resolve(batch.call(context, ...args))
           : batch
-            ? batch.call(context, ...args)
-            : args.map(arg => single.call(context, ...arg))
-        : []
-
-      return Promise.all(ret)
+            ? Promise.resolve(batch.call(context, ...args))
+            : Promise.all(args.map(arg => single.call(context, ...arg)))
+        : Promise.resolve([])
     }
   }
 }

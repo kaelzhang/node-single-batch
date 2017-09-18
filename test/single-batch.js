@@ -82,7 +82,19 @@ test('function', async t => {
 test('single, multiple arguments', async t => {
   const add = (a, b) => delay(10).then(() => a + b)
 
-  const wrapped = wrap(add, null)
+  const wrapped = wrap(add)
   t.is(await wrapped.single(1, 2), 3)
   t.deepEqual(await wrapped.batch([1, 2], [3, 4]), [3, 7])
+  t.deepEqual(await wrapped.batch(), [])
+})
+
+
+test('batch, multiple arguments', async t => {
+  const add = (...args) => delay(10).then(() => args.map(([a, b]) => a + b))
+
+  const wrapped = wrap(null, add)
+  t.is(await wrapped.single(1, 2), 3)
+  t.deepEqual(await wrapped.batch([1, 2]), [3])
+  t.deepEqual(await wrapped.batch([1, 2], [3, 4]), [3, 7])
+  t.deepEqual(await wrapped.batch(), [])
 })

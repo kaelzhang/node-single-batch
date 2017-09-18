@@ -15,7 +15,7 @@
 
 # single-batch
 
-<!-- description -->
+Low level utility to handle single or batch methods.
 
 ## Install
 
@@ -26,8 +26,24 @@ $ npm install single-batch
 ## Usage
 
 ```js
-import single_batch from 'single-batch'
+import wrap from 'single-batch'
+
+const obj = {
+  add: (a, b) => Promise.resolve(a + b)
+}
+
+const wrapped = wrap('add', null, obj)
+
+wrapped.single(1, 2).then(console.log)            // 3
+wrapped.batch([[1, 2], [2, 3]]).then(console.log) // [3, 4]
 ```
+
+## wrap(single, batch, context)
+
+Returns
+
+- `null` if single and batch methods are both unavailable
+- `{single: function, batch: function}` 
 
 ## License
 

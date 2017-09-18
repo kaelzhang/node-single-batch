@@ -1,11 +1,11 @@
 {
   "name": "single-batch",
   "version": "1.0.0",
-  "description": "single-batch",
+  "description": "Low level utility to handle single or batch methods.",
   "main": "lib/index.js",
   "module": "src/index.js",
   "scripts": {
-    "build": "BABEL_ENV=rollup rollup -c",
+    "build": "BABEL_ENV=babel babel src -d lib",
     "test": "BABEL_ENV=ava nyc ava --verbose --timeout=10s",
     "prepublish": "npm run build",
     "report-cov": "nyc report --reporter=text-lcov > coverage.lcov && codecov"
@@ -19,7 +19,11 @@
     "url": "git://github.com/kaelzhang/node-single-batch.git"
   },
   "keywords": [
-    "single-batch"
+    "single-batch",
+    "promise",
+    "async",
+    "single",
+    "batch"
   ],
   "engines": {
     "node": ">=4"
@@ -41,17 +45,18 @@
   "devDependencies": {
     "ava": "^0.16.0",
     "babel-cli": "^6.16.0",
-    "babel-plugin-transform-async-to-generator": "^6.22.0",
     "babel-plugin-syntax-trailing-function-commas": "^6.13.0",
-    "babel-plugin-transform-es2015-modules-commonjs": "^6.26.0",
+    "babel-plugin-transform-async-to-generator": "^6.22.0",
     "babel-plugin-transform-class-properties": "^6.16.0",
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.26.0",
     "babel-plugin-transform-exponentiation-operator": "^6.8.0",
     "babel-plugin-transform-inline-environment-variables": "^6.8.0",
     "babel-plugin-transform-object-rest-spread": "^6.16.0",
     "babel-plugin-transform-runtime": "^6.23.0",
     "babel-register": "^6.24.1",
-    "nyc": "^11.1.0",
     "codecov": "^2.3.0",
+    "delay": "^2.0.0",
+    "nyc": "^11.1.0",
     "rollup": "^0.49.3",
     "rollup-plugin-babel": "^3.0.2",
     "rollup-plugin-node-resolve": "^3.0.0"

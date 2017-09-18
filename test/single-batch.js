@@ -98,3 +98,21 @@ test('batch, multiple arguments', async t => {
   t.deepEqual(await wrapped.batch([1, 2], [3, 4]), [3, 7])
   t.deepEqual(await wrapped.batch(), [])
 })
+
+test('single arg: single', async t => {
+  const add = n => n + 1
+  const wrapped = wrap(add, null, null, true)
+  t.is(await wrapped.single(1), 2)
+  t.deepEqual(await wrapped.batch(1, 2), [2, 3])
+  t.deepEqual(await wrapped.batch(1), [2])
+  t.deepEqual(await wrapped.batch(), [])
+})
+
+test('single arg: batch', async t => {
+  const add = (...args) => args.map(n => n + 1)
+  const wrapped = wrap(null, add, null, true)
+  t.is(await wrapped.single(1), 2)
+  t.deepEqual(await wrapped.batch(1, 2), [2, 3])
+  t.deepEqual(await wrapped.batch(1), [2])
+  t.deepEqual(await wrapped.batch(), [])
+})

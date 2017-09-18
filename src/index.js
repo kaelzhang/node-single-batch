@@ -1,8 +1,12 @@
-export default function wrap (single, batch, context) {
+export default function wrap (single, batch, context = null, singleArg) {
   single = method(single, context)
   batch = method(batch, context)
 
-  return _wrap(single, batch, context)
+  if (!single && !batch) {
+    return null
+  }
+
+  return _wrap(single, batch, context, singleArg)
 }
 
 
@@ -27,27 +31,39 @@ const method = (name, context) => {
 }
 
 
-const _wrap = (single, batch, context = null) => {
-  if (!single && !batch) {
-    return null
-  }
-
+const _wrap = (single, batch, context, singleArg) => {
   return {
-    single (...args) {
-      return single
-        ? Promise.resolve(single.call(context, ...args))
-        : Promise.resolve(batch.call(context, args)).then(([value]) => value)
-    },
+    single: singleArg
+      ? arg => {
+        return single
+          ? Promise.resolve(single.call(context, arg))
+          : Promise.resolve(batch.call(context, arg)).then(([value]) => value)
+      }
+
+      : (...args) => {
+        return single
+          ? Promise.resolve(single.call(context, ...args))
+          : Promise.resolve(batch.call(context, args)).then(([value]) => value)
+      },
 
     batch (...args) {
       return args.length
         ? args.length === 1
           ? single
-            ? Promise.all([single.call(context, ...args[0])])
+            ? Promise.all([
+              singleArg
+                ? single.call(context, args[0])
+                : single.call(context, ...args[0])
+            ])
             : Promise.resolve(batch.call(context, ...args))
           : batch
             ? Promise.resolve(batch.call(context, ...args))
-            : Promise.all(args.map(arg => single.call(context, ...arg)))
+            : Promise.all(
+              args.map(arg => singleArg
+                ? single.call(context, arg)
+                : single.call(context, ...arg)
+              )
+            )
         : Promise.resolve([])
     }
   }

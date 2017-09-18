@@ -38,7 +38,12 @@ wrapped.single(1, 2).then(console.log)            // 3
 wrapped.batch([1, 2], [2, 3]).then(console.log)   // [3, 4]
 ```
 
-## wrap(single, batch, context)
+## wrap(single, batch, context, singleArg)
+
+- **single** `function()`
+- **batch** `function()`
+- **context** `Object=`
+- **singleArg** `Boolean=false`
 
 Returns
 

@@ -50,6 +50,29 @@ Returns
 - `null` if single and batch methods are both unavailable
 - `{single: function, batch: function}`
 
+### singleArg
+
+If true, then `wrapped.single` only accept one argument, and each argument of `wrapped.batch` corresponds to the argument of `wrapped.single`
+
+```js
+// singleArg: true
+wrapped.single(1)
+wrapped.batch(1, 2, 3)
+
+wrapped.single([1, 2])
+wrapped.batch([1, 2], [2, 3])
+```
+
+If false, `wrapped.single` accept multiple arguments, and each argument of `wrapped.batch` must be an array which represents the arguments of `wrapped.single`
+
+```js
+wrapped.single(1, 2)
+wrapped.batch([1, 2], [2, 3])
+
+wrapped.single([1, 2])
+wrapped.batch([[1, 2]], [[2, 3]])
+```
+
 ## License
 
 MIT

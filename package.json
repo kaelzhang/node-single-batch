@@ -1,6 +1,6 @@
 {
   "name": "single-batch",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "Low level utility to handle single or batch methods.",
   "main": "lib/index.js",
   "module": "src/index.js",

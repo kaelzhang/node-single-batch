@@ -47,24 +47,22 @@ const _wrap = (single, batch, context, singleArg) => {
       },
 
     batch (...args) {
-      return args.length
-        ? args.length === 1
-          ? single
-            ? Promise.all([
-              singleArg
-                ? single.call(context, args[0])
-                : single.call(context, ...args[0])
-            ])
-            : Promise.resolve(batch.call(context, ...args))
-          : batch
-            ? Promise.resolve(batch.call(context, ...args))
-            : Promise.all(
-              args.map(arg => singleArg
-                ? single.call(context, arg)
-                : single.call(context, ...arg)
-              )
+      return args.length === 1
+        ? single
+          ? Promise.all([
+            singleArg
+              ? single.call(context, args[0])
+              : single.call(context, ...args[0])
+          ])
+          : Promise.resolve(batch.call(context, ...args))
+        : batch
+          ? Promise.resolve(batch.call(context, ...args))
+          : Promise.all(
+            args.map(arg => singleArg
+              ? single.call(context, arg)
+              : single.call(context, ...arg)
             )
-        : Promise.resolve([])
+          )
     }
   }
 }

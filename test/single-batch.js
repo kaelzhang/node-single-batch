@@ -116,3 +116,12 @@ test('single arg: batch', async t => {
   t.deepEqual(await wrapped.batch(1), [2])
   t.deepEqual(await wrapped.batch(), [])
 })
+
+test('should not returns [] if no args', async t => {
+  const add = (...args) => args.length
+    ? args.map(n => n + 1)
+    : 'empty'
+
+  const wrapped = wrap(null, add, null)
+  t.is(await wrapped.batch(), 'empty')
+})

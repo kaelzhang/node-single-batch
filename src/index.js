@@ -1,4 +1,4 @@
-export default function wrap (single, batch, context = null, singleArg) {
+module.exports = function wrap (single, batch, context = null, singleArg) {
   single = method(single, context)
   batch = method(batch, context)
 
@@ -8,7 +8,6 @@ export default function wrap (single, batch, context = null, singleArg) {
 
   return _wrap(single, batch, context, singleArg)
 }
-
 
 const method = (name, context) => {
   if (typeof name === 'function') {
@@ -29,7 +28,6 @@ const method = (name, context) => {
     return name
   }
 }
-
 
 const _wrap = (single, batch, context, singleArg) => {
   return {

@@ -1,6 +1,6 @@
-import test from 'ava'
-import wrap from '../src'
-import delay from 'delay'
+const test = require('ava')
+const wrap = require('..')
+const delay = require('delay')
 
 test('if only single data, batch should fall back to single', async t => {
   let got = false
